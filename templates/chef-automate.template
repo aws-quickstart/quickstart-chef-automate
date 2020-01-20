@@ -428,7 +428,7 @@
                         "Fn::Sub": "var response = require('cfn-response');\nvar AWS = require('aws-sdk');\nexports.handler = function(event, context) {\n  var physicalId = event.PhysicalResourceId || 'none';\n  function success(data) {\n    return response.send(event, context, response.SUCCESS, data, physicalId);\n  }\n  function failed(e) {\n    return response.send(event, context, response.FAILED, e, physicalId);\n  }\n  var ec2 = new AWS.EC2();\n  var instances;\n  if (event.RequestType == 'Create') {\n    var launchParams = event.ResourceProperties;\n    delete launchParams.ServiceToken;\n    ec2.runInstances(launchParams).promise().then((data)=> {\n      instances = data.Instances.map((data)=> data.InstanceId);\n      physicalId = instances.join(':');\n      return ec2.waitFor('instanceRunning', {InstanceIds: instances}).promise();\n    }).then((data)=> success({Instances: instances})\n    ).catch((e)=> failed(e));\n  } else if (event.RequestType == 'Delete') {\n    if (physicalId == 'none') {return success({});}\n    var deleteParams = {InstanceIds: physicalId.split(':')};\n    ec2.terminateInstances(deleteParams).promise().then((data)=>\n      ec2.waitFor('instanceTerminated', deleteParams).promise()\n    ).then((data)=>success({})\n    ).catch((e)=>failed(e));\n  } else {\n    return failed({Error: \"In-place updates not supported.\"});\n  }\n};\n"
                     }
                 },
-                "Runtime": "nodejs8.10",
+                "Runtime": "nodejs10.x",
                 "Timeout": 300
             }
         },
