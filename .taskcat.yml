@@ -1,0 +1,48 @@
+project:
+  name: quickstart-chef-automate
+  owner: quickstart@amazon.com
+  package_lambda: false
+  regions:
+  - ap-northeast-1
+  - ap-northeast-2
+  - ap-south-1
+  - ap-southeast-1
+  - ap-southeast-2
+  - ca-central-1
+  - eu-central-1
+  - eu-west-1
+  - eu-west-2
+  - sa-east-1
+  - us-east-1
+  - us-east-2
+  - us-west-1
+  - us-west-2
+  s3_bucket: ''
+tests:
+  master:
+    parameters:
+      AdminPassword: $[alfred_genpass_12]
+      AvailabilityZones: $[alfred_getaz_2]
+      ChefNodes: '2'
+      IncludeDemoInstances: 'true'
+      KeyPairName: $[alfred_getkeypair]
+      PublicSubnetCIDR: 10.0.128.0/20
+      QSS3BucketName: $[taskcat_autobucket]
+      RemoteAdminCIDR: 10.0.0.0/16
+      VPCCIDR: 10.0.0.0/16
+    regions:
+    - ap-northeast-1
+    - ap-northeast-2
+    - ap-south-1
+    - ap-southeast-1
+    - ap-southeast-2
+    - ca-central-1
+    - eu-central-1
+    - eu-west-1
+    - eu-west-2
+    - us-east-1
+    - us-east-2
+    - us-west-1
+    - us-west-2
+    s3_bucket: ''
+    template: templates/chef-automate-master.template.yaml

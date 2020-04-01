@@ -21,7 +21,7 @@ global:
 tests:
   master:
     parameter_input: chef-automate-master.json
-    template_file: chef-automate-master.template
+    template_file: chef-automate-master.template.yaml
     regions:
     - ap-northeast-1
     - ap-northeast-2
